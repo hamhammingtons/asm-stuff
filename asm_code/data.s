@@ -1,10 +1,10 @@
-.section .data
-    num dd 5
+section .data
+    num dd 5          ; Indented!
 
-.section .text
+section .text
     global _start
 
 _start:
-    mov eax, 1 
-    mov ebx, [num] 
-    int 80h 
+    mov eax, 1        ; Indented!
+    mov ebx, [num]    ; Indented!
+    int 0x80
