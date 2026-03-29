@@ -1,0 +1,43 @@
+Which file regards: data.s 
+
+to create data we need 3 things 
+1. name 
+2. type of data (size in bytes)
+3. initial value
+
+Talking about size in bytes:
+    1. DB -> define byte (1 byte)
+    2. DW -> define word (2 bytes)
+    3. DD -> define doubleWord (4 bytes)
+    4. DQ -> define quadWord (8 bytes)
+    5. DT -> define ten Bytes (10 bytes)    
+
+how the num DD 5 works in our code
+
+its basically like allocation 
+so for example we know that assembly is the closest thing to machine code, so it doenst have data
+types
+
+because of it that it just has bits and bytes and so on 
+
+so in our case we want to allocate 4 bytes of memory for our number 5 
+i would like to represent it in hex so here that is 
+0000 0005
+as you can see we have a number 5 here, in our allocated 4 bytes
+
+Whats the catch?
+Unfortuantly or not, our num here only stores the memory adress of that 5. 
+Basically, the location of that number 5 in the Stack.
+
+Well, how do we get the actual value out of that memory adress then?
+Its very simple. For example in C when we use a pointer it only gives us a memory 
+adress. Theres a function called 'de-referencing'. it gives you the value of that memory adress
+in the stack or wherever. 
+
+assembly has this too! but its notation is a bit different 
+In our example we used
+mov ebx, num 
+
+thats incorrect because it will put the mem.adress of num to ebx. 
+instead we should do 
+mov ebx, [num] 

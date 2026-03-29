@@ -1,7 +1,7 @@
-section .data
+section .data ; data section where we can store variables and strings
     ; (Empty for now)
 
-section .text
+section .text ; code section
     global _start
 
 _start:          ; 1. The CPU looks for this label first
