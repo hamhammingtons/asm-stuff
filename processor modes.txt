@@ -1,0 +1,53 @@
+Modes: 
+
+Protected: default and native processor state
+    Idea: its basically like we do with virtual memory 
+          Meaning: each process is given its own memory adress in which they can work in 
+          BUT they cannot interact with other processes, ex. changing others memory
+    Its called protected because it prevents illegal operations 
+
+Real adress mode: implemented somewhere in early intel programming enviroment
+    Idea: basically it allows any software to acess physical memory 
+    
+    It doesnt have protection, however
+
+System management mode is a bit confusing
+    Idea: it is used to build operating systems specifically for a certain chip 
+          Its ultra privileged operating mode to manage fans, thermal events etc.
+    BIOS usually use this
+
+Register stuff
+
+x86 is a 32 bit processor, MEANING each register is 32 bits in size
+
+Example: EAX, EBX, EXC... 
+
+If you wanted to acess
+    If you want to store only 16 bits in a register, you drop the E:
+        For example: EAX[32 bit] -> AX[16 bit]
+        We might want to use this when were working with numbers that hold a 16 bit or less value. 
+
+Main registers: 
+
+EAX: used in math.
+ECX: loop counter by the CPU (think of while loops)
+ESI,EDI: High speed memory transfer
+EBP: used to reference function parameters AND local variables on the stack 
+ESP: pointer to current stack adress
+
+Honorable mentions: ebx, edx -> theyre general purpose
+
+One of the cool Special Registers:
+
+EIP: basically an instruction pointer which points to the adress of the next instruction
+     You can take a stack frame as an example: it always has a return adress
+     the return adress shows "where to go next"
+     its basically the same thing
+
+EFLAGS: Basically tells us the status of an operation:
+    CF: carry flag
+    OF: overflow flag
+    SF: sign flag
+    ZF: zero flag
+    AC: auxiliary carry
+    PF: parity flag

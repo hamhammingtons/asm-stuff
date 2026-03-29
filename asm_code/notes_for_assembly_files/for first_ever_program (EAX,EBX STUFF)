@@ -1,0 +1,39 @@
+Which file regards: first_ever_program.s
+
+So basically in our code we have this snippet
+
+_start ; this is where the program should start executing (declare the entry point)
+  mov eax, 1 ; In this case it is the system call number for sys_exit, which is 1.
+  mov ebx, 1 ; and in here this is 'what we want to output' i
+  INT 80h ; this is the interrupt that tells the operating system to execute the system call
+  ; by looking at the eax value ^^^
+
+Its a bit confusing but actually really useful. 
+
+So actually, the registers of our cpu can take multiple jobs, depending on the instruction 
+In our case we are executing a system exit. how it work is we do something called a 
+mov (move) instruction. it takes in a static number and puts it in the register
+
+So whats the deal? why do we need eax, ebx here even though EBX is G.P. and eax is for math?
+We use them because they can take multiple jobs. 
+We typed in something called an 'interrupt' by using 80h (hexadecimal)
+When our compiler saw that it immediatly changed the job of eax, ebx 
+
+EAX now takes job as a Room Number, or in official terms the \\System Call Number\\
+    Basically in simple terms, in the linux kernel the rule of a SysCalls ID
+    is that every task is used with a number
+    so for example, there are rooms for Exit, Write, Read, Open
+EBX now takes place as the Paperwork, or in official terms the \\Arguments\\
+    Basically its like what we pass into Syscalls ID to get some kind of result
+    Arguments are used in asm-in instructions to get some kind of result they need.
+        (Example below)
+    BUT!!! IN our case EBX only takes the role of a 'result' 
+    so for example when we do return 0; in C it means that the program executed succesfully.
+    Its practically the same thing here.
+
+        NOTE: EBX is not only the argument in asm, theres also 2 more, here they are in order;
+            1. EBX 2. ECX 3. EDX
+            Why: for example if you needed to access the Write office, you would need 3 args
+            EAX = 4 [sys_write]; EBX = 1 [stdout]; ECX = msg; EDX = 13[amm. of bytes in msg]
+INT 80h is just used to get a result value if executed succefully
+    Almost always the result of the program is put back into the EAX register

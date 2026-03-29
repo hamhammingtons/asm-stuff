@@ -1,0 +1,49 @@
+1. Create and Write
+
+Action: Create a new file in VS Code with the .s extension (e.g., test.s).
+
+Note: This is where you write your human-readable assembly instructions.
+
+2. Save (Critical)
+
+Action: Save the file in VS Code (Cmd + S).
+
+Reason: Docker is looking at the file on your hard drive. If you don't save, Docker will try to assemble the old version (or an empty file).
+
+3. Assemble (NASM)
+
+Action: Convert the text file into a machine-readable Object File.
+
+Command: nasm -f elf -o [object_name].o [source_name].s
+
+Example: nasm -f elf -o main.o test.s
+
+Terminology: The .o file is the "Object" file. It contains binary code but isn't a finished program yet.
+
+4. Link (LD)
+
+Action: Link the object file to the Linux system to create the final Executable.
+
+Command: ld -m elf_i386 -o [program_name] [object_name].o
+
+Example: ld -m elf_i386 -o my_program main.o
+
+Requirement: The -m elf_i386 flag is mandatory because you are compiling 32-bit code on a 64-bit system.
+
+5. Execute
+
+Action: Run the finished program.
+
+Command: ./[program_name]
+
+Example: ./my_program
+
+Full Workflow Example
+
+If your file is named lab1.s, you would run these three lines in order:
+
+nasm -f elf -o lab1.o lab1.s
+
+ld -m elf_i386 -o lab1_exec lab1.o
+
+./lab1_exec
