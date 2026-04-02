@@ -1,0 +1,31 @@
+which file regards: working_with_bytes_and_stuff.s
+
+so this chapter is pretty much easy as long as you remember how bytes and bits work in asm
+
+a 32 bit register can be sliced in order to achive the perfect result 
+
+for example, imagine theres a 32 bit register EBX 
+we have to put the value of 2 into EBX
+we make this 2 via a DB (define byte(8 bits))
+so
+
+number db 2 
+
+so ebx is 32 bit, if we just put db into ebx, it wont work, it will be a garbage number 
+
+instead we have to be memory efficent. 
+
+EBX(32 bits) can be split into BX (16 bits)
+BX can be split into BL and BH, which are both 8 bits. 
+    Where BL -> byte LOW, BH -> byte HIGH
+
+Whats the difference?
+
+BL is basically is like the start of any binary, we start from power of 0 to 8 
+so for example it starts at 0 * 2^0 and it increments based of how many bits
+
+but in BH its different. BH starts at the 2^8.
+so for example in our problem 
+num db 2 
+mov BH, [num]
+it would result in 256 (2 * 2^8)

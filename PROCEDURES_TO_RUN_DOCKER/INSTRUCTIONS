@@ -47,3 +47,14 @@ nasm -f elf -o lab1.o lab1.s
 ld -m elf_i386 -o lab1_exec lab1.o
 
 ./lab1_exec
+
+
+OR: 
+# 1. Assemble with Debug Symbols (-g)
+nasm -f elf -g -o working.o working_with_bytes_and_stuff.s
+
+# 2. Link for 32-bit Linux
+ld -m elf_i386 -o working_app working.o
+
+# 3. Dump with Source (-S) and Intel syntax (-M intel)
+objdump -S -M intel working_app

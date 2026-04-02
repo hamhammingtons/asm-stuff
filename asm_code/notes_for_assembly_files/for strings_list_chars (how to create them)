@@ -1,0 +1,27 @@
+Which file regards: strings_lists_chars.s
+
+So basically in this code we have two kinds of data in section .data:
+  char   DB 'A'                        ; single character value
+  list   DB 1,2,3,4,-1                 ; numeric list ended by -1 marker
+  string DB "asm is c but harder",0   ; C-like string ended by 0 byte
+
+In section .text we set entry point:
+
+_start:                               ; program start point (entry)
+    xor ebx, ebx                      ; clear EBX (set to 0)
+    mov bl, [char]                    ; load char value ('A'=65) into BL lower byte of EBX
+
+    mov eax, 1                        ; sys_exit syscall number (Linux i386)
+    int 80h                           ; call kernel
+
+Why is list and string defined but not used? educational sample:
+- list is an example of using an end-marker (-1) to terminate arrays in ASM
+- string is a null terminated byte sequence like C-strings
+- they’re not on path to syscall here, but you can print them by sys_write (EAX=4, EBX=1, ECX=string, EDX=len)
+
+Extra notes:
+- `DB` = define byte (allocate data and optional initialization)
+- `section .data` is for initialized static data and constants
+- `section .text` is for executable code
+- if you want to use string/list values later, use `mov ecx, string` (address in ECX) and `mov edx, <length>` before sys_write
+
