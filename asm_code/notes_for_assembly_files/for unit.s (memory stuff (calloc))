@@ -1,0 +1,51 @@
+which regards: unit.s 
+
+so its actually pretty simple 
+in c you have the stdlib library which gives you calloc 
+
+calloc works the same as malloc, but it makes sure all bits are 0
+
+in assembly you have the same thing but its with uninitalized data
+
+so for example you need to reserve some memory for some kind of data 
+as an example we create a list of integers 
+
+in a good world we would use int bobo[3]
+but in asm its a bit different
+
+so we can infact declare uninitalized data this way, we would use a section called .bss
+section .bss
+    uninitalized_list resb 3 ; where resb = reserve-byte
+
+so in our case we would have 3 slots.
+Visually: [0,0,0]
+
+Indexing in asm works too, but its again a bit different. 
+so when we would like to get and replace the 0 in the middle with another number (viusally!)
+we would do 
+    mov bl, 1;
+    mov [uninitalized_list+1], bl ;
+
+where uninitalized_list+1 is basically uninitalized_list[1].
+same thing. but its a bit raw. imagine 0+1 = 1. thats about it. 
+
+
+
+we have 3 bytes
+
+then its split into [0,0,0]
+
+then you can can access these bits via [thing+]
+
+so for example
+section .bss
+unr resb 3
+
+section .data
+noob db 2
+
+section .text
+global _start
+
+_start:
+mov [unr+1], [noob] ; so like [0,0,0] -> [0,1,0]
