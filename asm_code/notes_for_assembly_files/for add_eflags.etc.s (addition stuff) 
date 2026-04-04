@@ -1,0 +1,80 @@
+which regards: add_eflags.s 
+
+so basically eflags are some flags that are given in operations to show whats going on 
+they mostly regard operation succes, fail, or just data transfer etc. 
+
+for example in an addition operation we have a flag named PF 
+Its called parity flag 
+its job is to tell us if the outcome of the operation is an odd number or an even one 
+   NOTE: actually yes, but no at the same time 
+   its actually telling us if the binary number has an odd or even number of 1's:
+   so for example: 0x1100: its even, because we have two 1's 
+   0x1110: its odd, because we have three 1'same
+ 
+and we have an IF flag, its basically when we do an interrupt 
+    it doesnt actually regard to 80h, its more of like an option of choice 
+    so for example 
+    if IF = 1, it allows hardware[keyboard, mouse] to interrupt your code
+    if IF = 0, it doesnt allow i/o devices to do it
+
+    80h is actually a Software interrupt which happens regardless to IF flag
+
+so in our code
+    mov al, 0b111111111 
+    mov bl, 0b0001 ; <-- overflow will happen, redirect to ah 
+
+    adc ah, 0 ; <--- major thing here 
+
+in case we dont want to have this overflow problem and want the number we would 
+use something called ADC 
+
+so what it does is it basically tells the processor dont make data 0, instead
+go to thats destination high register which is 8 bit too and move the carry to there 
+
+so in our case 
+
+ah: 0001 <- 1 has been added here 
+al: 1111 <- unsure its an example 
+
+why adc ..., 0 tho?
+
+its basically so we could add the carry to the ah register before adding 
+
+so 0 + ah + carry bit 
+    where the carry bit comes from eflags.
+
+One cool mention about the ADC flag is that you can use it as an if statement
+
+so the carry bit always relies on the carry flag 
+it can be 0, or 1. 
+
+in case we do 
+    mov al, 255
+    mov bl, 100
+    add al, bl 
+
+the carry flag would become 1. 
+
+in our formula we have [0 + register + carry flag]
+    IF the carry flag = 0 it wont change anything in the higher 
+        for example if al would hold 254, and bl = 1
+        then adc ah, bh idea would be 
+            0[ah] + 0[bh] + 0[cf] = 0, no change in ah = dont care
+    IF the carry flag = 1, it will change al = 1
+            0[ah] + 0[bh] + 1[cf] = 0, move carry to the ah 
+
+finalized:
+
+_start: 
+    mov al, 255 ; 
+    mov bl, 100 ;  
+
+    add al, bl ; 
+    adc ah, bh ; [0 + 0 + 1] = 1 
+
+    int 80h;
+
+OLD: 
+so we would get     eax: 0x100 -> 255 
+                    ebx: 0x1 -> 1
+in total: 256, its what we wanted 
