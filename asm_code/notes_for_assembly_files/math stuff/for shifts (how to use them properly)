@@ -1,0 +1,26 @@
+shifts are actually pretty easy 
+
+so for example when we have
+
+section .data 
+    num db 2
+
+section .text 
+    global _start   
+
+_start:
+    mov al, [num] ; 
+    shr al, 1 
+
+what it will basically do is divide this value by 2 
+because in asm we usually work with bits, we mostly write base-2 numbers
+
+so when we shift right, we are basically moving all the bits to the right
+and the leftmost bit will be filled with 0
+
+even easier here: 0010 -> step: 1[because we do shr al, **1**] -> 0001 
+
+But what if we want to use it as a checker of "odd or even" 
+its actually pretty easy too
+since we know that the lsb goes to the carry flag when we use shr we can just check if its 0 or 1
+and then do a jc instruction 

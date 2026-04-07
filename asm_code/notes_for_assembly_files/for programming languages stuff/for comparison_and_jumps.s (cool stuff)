@@ -1,0 +1,86 @@
+so its actually pretty easy 
+
+to compare 2 values we use an instruction called cmp 
+it takes 2 operands and compares them and sets some flags based on the result of the comparison
+
+it has 3 main flags
+ZF - zero flag - set if the result of the comparison is zero (i.e. the two values are equal)
+SF - sign flag - set if the result of the comparison is negative 
+(i.e. the first value is less than the second value) BUT: its for signed comparisons only
+CF - carry flag - set if there is a borrow in the comparison
+(i.e. the first value is less than the second value) BUT: its for unsigned comparisons only
+
+so based off this we can use something called a jump instruction 
+basically it works like an if statement in high level languages
+
+it checks the flags that were set by the cmp instruction and just pipes them to the jmp instruction
+to handle 
+different cases we have different jump instructions for each case
+
+je - jump if equal (ZF is set)
+jne - jump if not equal (ZF is not set)
+jg - jump if greater (ZF is not set and SF is not set) for signed comparisons
+jge - jump if greater or equal (ZF is set or SF is not set) for
+    signed comparisons
+jl - jump if less (SF is set) for signed comparisons
+jle - jump if less or equal (ZF is set or SF is set) for signed
+    comparisons
+
+[harder ones below]:
+ja - jump if above (CF is not set and ZF is not set) for unsigned
+    comparisons
+jae - jump if above or equal (CF is not set) for unsigned comparisons
+jb - jump if below (CF is set) for unsigned comparisons
+jbe - jump if below or equal (CF is set or ZF is set) for
+    unsigned comparisons
+
+
+for example i had this task with tracing what the program did:
+
+section .text
+    global _start
+
+_start:
+    mov eax, 7       ; The input number
+    mov ecx, 2       ; A secondary value
+    
+    shl eax, 1       ; First operation
+    add eax, ecx     ; Second operation
+    
+    cmp eax, 20      ; The "Check"
+    jle lower_label  ; A conditional jump
+    
+    mov ebx, 100     ; Path A
+    jmp end_prog
+
+lower_label:
+    mov ebx, 50      ; Path B
+
+end_prog:
+    mov eax, 1       ; sys_exit
+    int 80h
+
+i wrote it like this:
+ebx - ? 
+
+eax = 7 
+ecx = 2 
+
+1. you do eax * (step * 2)
+7 * 2 = 14 
+so eax =14 
+
+2. you do add eax,ecx so eax becomes the destination 
+14 + 2 = 16
+
+1. you do cmp eax, 20 
+16-20 = -4and since were working with signed ints i.g. the SF flag = 1 
+then it pipes the sf flag into jle
+jle is true because its lower
+
+then mov ebx, 50 
+
+ebx = 50 
+
+so the final value of ebx is 50
+ 
