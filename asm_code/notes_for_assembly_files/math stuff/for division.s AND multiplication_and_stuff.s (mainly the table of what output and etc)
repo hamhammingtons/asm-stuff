@@ -1,0 +1,5 @@
+Instruction	Input	Output      (Quotient/Product)	Output (Remainder/High)
+
+DIV         ecx	    EDX:EAX	    EAX	                EDX
+MUL         bl	    AL	        AL	                AH (Result is in AX)
+MUL         ecx	    EAX	        EAX	                EDX
