@@ -1,0 +1,27 @@
+which regards: better_loops_and_stuff.s and loops_and_stuff.s
+
+so loops in assembly are awesome, they let you do repetitive stuff without copy-pasting code everywhere.
+
+its basically summing a list [1,2,3,4,5], but wait, the code adds to cl but doesnt really use the sum, probably just demo.
+
+visually: list = [1,2,3,4,5]
+
+you start with eax=0 (index), cl=0 (sum, atleast here)
+
+loop: grab list[eax] into bl, add bl to cl, inc eax, cmp eax to 5, if equal jump to end, else back to loop.
+
+hardcoded 5 is BAD, better to have list_len equ $ - list or something.
+
+then better_loops_and_stuff.s is a search loop.
+
+list = [12,45,88,12,34,99], target=88
+
+eax=0 as index
+
+loop: get list[eax] into bl, cmp bl to target, if equal jump to if_true (set ebx=1), else inc eax, cmp to list_len, if less jump loop, else not_found (ebx=0)
+
+so its like a linear search.
+
+jumps: je (jump equal), jl (jump less), jmp for unconditional.
+
+thats the basics of loops in asm – counters, compares, jumps.
